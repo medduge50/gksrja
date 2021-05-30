@@ -1,8 +1,4 @@
-import discord, asyncio, datetime, pytz, json, os, openpyxl, subprocess, time
-from discord_webhook import DiscordWebhook
-from discord.ext import commands
-
-dirfolder = os.getcwd()
+import discord, datetime, pytz, os
 
 notice = "836190313843916801"
 guild = "🔰𝒜𝒟𝑀𝐼𝒩🔰"
