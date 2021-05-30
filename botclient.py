@@ -4,13 +4,11 @@ from discord.ext import commands
 
 dirfolder = os.getcwd()
 
-state = "𝓗𝓪𝓷𝓰𝓾𝓶 𝓓𝓲𝓼𝓬𝓸𝓻𝓭 𝓢𝓮𝓻𝓿𝓮𝓻 관리중.."
-servername = "𝓗𝓪𝓷𝓰𝓾𝓶 𝓓𝓲𝓼𝓬𝓸𝓻𝓭 𝓢𝓮𝓻𝓿𝓮𝓻"
-guild = "🔰𝒜𝒟𝑀𝐼𝒩🔰"
-access_token = os.environ["BOT_TOKEN"]
 notice = "836190313843916801"
-servericon = "https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128"
-
+guild = "🔰𝒜𝒟𝑀𝐼𝒩🔰"
+state = "𝓗𝓪𝓷𝓰𝓾𝓶 𝓓𝓲𝓼𝓬𝓸𝓻𝓭 𝓢𝓮𝓻𝓿𝓮𝓻서버 관리중"
+servername = "𝓗𝓪𝓷𝓰𝓾𝓶 𝓓𝓲𝓼𝓬𝓸𝓻𝓭 𝓢𝓮𝓻𝓿𝓮𝓻"
+access_token = os.environ["BOT_TOKEN"]
 client = discord.Client()
 
 @client.event
@@ -35,10 +33,10 @@ async def on_message(message):
             return
         embed = discord.Embed(title="도움말",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0xff0000)
         embed.add_field(name="!?핑", value="봇에 핑을 알려주는 기능입니다 : )", inline=False) 
-        embed.add_field(name="!?청소", value="100000000000000개에 매세지(이미지,링크,파일)등을 삭제합니다 : )", inline=False)
-        embed.add_field(name="!?공지", value="공지를 할수 있는 기능입니다, 자동적으로 '@everyone'되므로 적지 않으셔도 됩니다 : ) ", inline=False)            
+        embed.add_field(name="!?청", value="사용되는 방에 모든 매세지를 삭제합니다.", inline=False)
+        embed.add_field(name="!?공지", value="공지를 할수 있는 기능입니다, 자동적으로 '@everyone'되므로 적지 않으셔도 됩니다 : ) ", inline=False)             
         embed.set_footer(text="사용자 태그 : {} • {} 서버 관리봇 • Made by 호떡#9460".format(message.author, servername))
-        embed.set_thumbnail(url=servericon)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128")
         await message.channel.send (embed=embed)
         await message.channel.send ("{}".format(message.author.mention))
 
@@ -51,7 +49,7 @@ async def on_message(message):
         embed = discord.Embed(title="봇 핑 상태",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0xff0000)
         embed.add_field(name="핑 상태", value="퐁 !, {0}초".format(client.latency), inline=False) 
         embed.set_footer(text="사용자 태그 : {} • {} 서버 관리봇 • Made by 호떡#9460".format(message.author, servername))
-        embed.set_thumbnail(url=servericon)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128")
         await message.channel.send (embed=embed)
         await message.channel.send ("{}".format(message.author.mention)) 
 
@@ -66,7 +64,7 @@ async def on_message(message):
         embed = discord.Embed(title="{} 청소가 되었습니다!".format(servername) ,timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0xff0000)
         embed.add_field(name="청소", value="모든 매세지(사진,링크 등등)가 전부 청소 되었습니다.", inline=False) 
         embed.set_footer(text="사용자 태그 : {} • {} 서버 관리봇 • Made by 호떡#9460".format(message.author, servername))
-        embed.set_thumbnail(url=servericon)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128")
         await message.channel.send (embed=embed)
         await message.channel.send ("{}".format(message.author.mention)) 
 
@@ -76,12 +74,12 @@ async def on_message(message):
         channel = client.get_channel(int(notice))
         target = discord.utils.get(message.guild.roles, name=f"{guild}") 
         if not target in message.author.roles: 
-
             return
         embed = discord.Embed(title=f"{servername} 공지 사항", description="{}".format(sodyd),timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
         embed.set_footer(text="담당관리자 : {} • {} 서버 관리봇 • Made by 호떡#9460".format(message.author, servername))
-        embed.set_thumbnail(url=servericon)
+        embed.set_thumbnail(url="https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128")
         await channel.send ("@everyone", embed=embed)
         await message.channel.send("{}, 성공적으로 내용이 전달되었습니다, 내용 : {}".format(message.author.mention, sodyd))
+
             
 client.run(access_token)
