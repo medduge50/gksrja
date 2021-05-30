@@ -7,7 +7,7 @@ dirfolder = os.getcwd()
 state = "𝓗𝓪𝓷𝓰𝓾𝓶 𝓓𝓲𝓼𝓬𝓸𝓻𝓭 𝓢𝓮𝓻𝓿𝓮𝓻 관리중.."
 servername = "𝓗𝓪𝓷𝓰𝓾𝓶 𝓓𝓲𝓼𝓬𝓸𝓻𝓭 𝓢𝓮𝓻𝓿𝓮𝓻"
 guild = "🔰𝒜𝒟𝑀𝐼𝒩🔰"
-token = "ODQ4NDA2NTYzMzg2OTQ5NjUy.YLMKLw.IOWb6xkTSBUMorbOzrScpmgMoks"
+access_token = os.environ["BOT_TOKEN"]
 notice = "836190313843916801"
 servericon = "https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128"
 
@@ -84,4 +84,4 @@ async def on_message(message):
         await channel.send ("@everyone", embed=embed)
         await message.channel.send("{}, 성공적으로 내용이 전달되었습니다, 내용 : {}".format(message.author.mention, sodyd))
             
-client.run(token)
+client.run(access_token)
