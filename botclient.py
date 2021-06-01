@@ -29,7 +29,7 @@ async def on_message(message):
             return
         embed = discord.Embed(title="도움말",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0xff0000)
         embed.add_field(name="!?핑", value="봇에 핑을 알려주는 기능입니다 : )", inline=False) 
-        embed.add_field(name="!?청", value="사용되는 방에 모든 매세지를 삭제합니다.", inline=False)
+        embed.add_field(name="!?청소", value="사용되는 방에 모든 매세지를 삭제합니다.", inline=False)
         embed.add_field(name="!?공지", value="공지를 할수 있는 기능입니다, 자동적으로 '@everyone'되므로 적지 않으셔도 됩니다 : ) ", inline=False)             
         embed.set_footer(text="사용자 태그 : {} • {} 서버 관리봇 • Made by 호떡#9460".format(message.author, servername))
         embed.set_thumbnail(url="https://cdn.discordapp.com/icons/826727961699811349/7bce18ee48c31a3e25bd6482bd2ab10e.webp?size=128")
