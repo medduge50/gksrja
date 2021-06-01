@@ -176,7 +176,8 @@ async def on_message(message):
         embed = discord.Embed(title=f"{servername} 공지 사항", description="{}".format(sodyd),timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
         embed.set_footer(text="담당관리자 : {} • Made by 호떡#9460".format(message.author, servername))
         embed.set_thumbnail(url=servericon)
-        await channel.send ("@everyone", embed=embed)
+        await channel.send (embed=embed)
+        await channel.send ("@everyone")
         await message.channel.send("{}, 성공적으로 공지 내용이 전달되었습니다, 내용 : {}".format(message.author.mention, sodyd))
 ####################################################################################################################################################################
         embed = discord.Embed(title="자동 기록 내용", description="{}님께서 공지 명령어를 사용하셨습니다. \n 내용 : {}".format(message.author, sodyd), timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
