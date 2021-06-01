@@ -4,7 +4,6 @@ import discord, datetime, pytz, os
 from discord.widget import WidgetChannel
 from discord.flags import Intents
 from discord import channel
-from discord_webhook import DiscordWebhook
 from discord.ext import commands
 
 Intents = discord.Intents.default()
