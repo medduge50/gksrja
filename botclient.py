@@ -1,31 +1,23 @@
 from functools import update_wrapper
 from ntpath import join
-import discord, asyncio, datetime, pytz, json, os, openpyxl, subprocess, time
+import discord, datetime, pytz, os
 from discord.widget import WidgetChannel
 from discord.flags import Intents
 from discord import channel
-from discord_webhook import DiscordWebhook
 from discord.ext import commands
-
-
 
 Intents = discord.Intents.default()
 Intents.members=True
 client = discord.Client(Intents=Intents)
 
-dirfolder = os.getcwd()
-
-with open('config.json', encoding="utf-8") as f:
-    json.data = json.load(f)
-
-token = json.data['bot']['token']
-servername = json.data['server']['servername']
-servericon = json.data['server']['servericon']
-state = json.data['server']['state']
-logs = json.data['server']['logs']
-guild = json.data['server']['guild']
-notice = json.data['server']['notice']
-serverclient = json.data['server']['serverclient']
+token = os.environ["BOT_TOKEN"]
+servername = "루크"
+serverclient = "connect 103.156.22.67"
+guild = "총관리봇"
+state = "!?도움말"
+notice = "841128210330157146"
+logs = "848501328044097566"
+servericon = "https://cdn.discordapp.com/attachments/845894634072965172/846333308345647114/download.png"
 
 @client.event
 async def on_ready(): 
