@@ -225,7 +225,7 @@ async def on_message(message):
         embed = discord.Embed(title=f"{servername} 서버 투표", description="투표 내용 : {} \n [찬성 👍],[반대 👎]".format(sodyd2),timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0xff0000)
         embed.set_footer(text="담당관리자 : {} • Made by 호떡#9460".format(message.author, servername))
         embed.set_thumbnail(url=servericon)
-        msg = await message.channel.send (embed=embed)
+        msg = await channel.send (embed=embed)
         await msg.add_reaction('👍')
         await msg.add_reaction('👎')
         await channel.send ("@everyone")
