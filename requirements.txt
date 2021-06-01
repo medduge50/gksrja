@@ -1,4 +1,3 @@
 discord.py
 datetime
 pytz
-discord_webhook
