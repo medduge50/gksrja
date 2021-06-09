@@ -1,14 +1,20 @@
 from functools import update_wrapper
 from ntpath import join
-import discord, datetime, pytz, os
+import discord, datetime, pytz, os, time
 from discord.widget import WidgetChannel
 from discord.flags import Intents
 from discord import channel
 from discord.ext import commands
 
-Intents = discord.Intents.default()
-Intents.members=True
-client = discord.Client(Intents=Intents)
+def times():
+    return time.time()
+
+
+intents = discord.Intents.default()
+intents.members = True
+
+client = discord.Client(intents=intents)
+dirfolder = os.getcwd()
 
 token = os.environ["BOT_TOKEN"]
 servername = "루크"
@@ -17,10 +23,12 @@ guild = "총관리봇"
 state = "!?도움말"
 notice = "841128210330157146"
 logs = "848501328044097566"
+dkssudgktpdy = "841120652424642585"
+dkssudgktpdy2 = "841120652424642586"
 servericon = "https://cdn.discordapp.com/attachments/845894634072965172/846333308345647114/download.png"
 
 @client.event
-async def on_ready(): 
+async def on_connect(): 
     await client.change_presence(status=discord.Status.online)
     await client.change_presence(activity=discord.Game(f"{state}"))
     print("-------------------봇 정보-----------------------")
@@ -31,6 +39,22 @@ async def on_ready():
     print("------------------------------------------------")
     print("호떡#9460")
     print("------------------------------------------------")
+
+@client.event
+async def on_member_join(member):
+    member2 = client.get_channel(int(dkssudgktpdy))
+    embed = discord.Embed(title='! 안녕하세요 !', description=f'안녕하세요 **{member.mention}**님, **{member.guild}**에 오신것을 환영합니다. 서버 규칙 한번씩 읽어주시면 감사하겠습니다.', color=0x00ff00)
+    embed.set_thumbnail(url=servericon)
+    await member2.send(embed=embed)
+    embed = discord.Embed(title='! 안녕하세요 !', description=f'안녕하세요, **{member.guild}**입니다. 서버 규칙 한번씩 읽어주시면 감사하겠습니다.', color=0x00ff00)
+    await member.send(embed=embed)
+
+@client.event
+async def on_member_remove(member):
+    member2 = client.get_channel(int(dkssudgktpdy2))
+    embed = discord.Embed(title='! 안녕히가세요 !', description=f'안녕히가세요 **{member.mention}**님 ㅠㅠㅠㅠㅠㅠㅠㅠㅠ', color=0x00ff00)
+    embed.set_thumbnail(url=servericon)
+    await member2.send(embed=embed)
 
 @client.event
 async def on_message(message):      
