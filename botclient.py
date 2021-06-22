@@ -224,7 +224,7 @@ async def on_message(message):
                     pass
                 else:
                     try:
-                        hi = message.content[27:]
+                        hi = message.content[4:]
                         if message.author.guild_permissions.manage_messages:
                             embed2 = discord.Embed(color=0x800080, timestamp=datetime.datetime.now(pytz.timezone('UTC')))
                             embed2.add_field(name=f"공지 사항", value=f"{hi}", inline=False)
