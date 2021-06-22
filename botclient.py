@@ -110,8 +110,7 @@ async def on_message(message):
                 await message.channel.send(f"{message.author.mention}" ,embed=embed)
                 return None
             user = message.author
-            text= f"{message.content}"
-            a,b,c=text.split()
+            hi = message.content[27:]
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
@@ -121,10 +120,10 @@ async def on_message(message):
             embed = discord.Embed(title="역할 추가 명령어 안내", description=f"다른 사용자에게 역할을 추가하셨습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed.add_field(name="역할 추가자", value=f"{message.mentions[0]}", inline=False) 
-            embed.add_field(name="추가된 역할", value=f"{c}", inline=False) 
+            embed.add_field(name="추가된 역할", value=f"{hi}", inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
-            role = discord.utils.get(message.guild.roles, name=f"{c}")
+            role = discord.utils.get(message.guild.roles, name=f"{hi}")
             await message.mentions[0].add_roles(role)
             await message.author.send (f"{message.author.mention}", embed=embed)     
         except Exception as e:
@@ -146,8 +145,7 @@ async def on_message(message):
                 await message.channel.send(f"{message.author.mention}" ,embed=embed)
                 return None
             user = message.author
-            text= f"{message.content}"
-            a,b,c=text.split()
+            hi = message.content[27:]
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
@@ -157,10 +155,10 @@ async def on_message(message):
             embed = discord.Embed(title="역할 제거 명령어 안내", description=f"다른 사용자에게 역할을 제거하셨습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed.add_field(name="역할 제거자", value=f"{message.mentions[0]}", inline=False) 
-            embed.add_field(name="추가된 역할", value=f"{c}", inline=False) 
+            embed.add_field(name="추가된 역할", value=f"{hi}", inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
-            role = discord.utils.get(message.guild.roles, name=f"{c}")
+            role = discord.utils.get(message.guild.roles, name=f"{hi}")
             await message.mentions[0].remove_roles(role)
             await message.author.send (f"{message.author.mention}", embed=embed)     
         except Exception as e:
@@ -182,8 +180,7 @@ async def on_message(message):
                 await message.channel.send(f"{message.author.mention}" ,embed=embed)
                 return None
             user = message.author
-            text= f"{message.content}"
-            a,b,c=text.split()
+            hi = message.content[27:]
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
@@ -193,10 +190,10 @@ async def on_message(message):
             embed = discord.Embed(title="별명 변경 안내", description=f"다른 사용자에게 별명을 변경하셨습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed.add_field(name="별명 변경자", value=f"{message.mentions[0]}", inline=False) 
-            embed.add_field(name="변경된 이름", value=f"{c}", inline=False) 
+            embed.add_field(name="변경된 이름", value=f"{hi}", inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
-            await message.mentions[0].edit(nick=f"{c}")
+            await message.mentions[0].edit(nick=f"{hi}")
             await message.author.send (f"{message.author.mention}", embed=embed)     
         except Exception as e:
             embed = discord.Embed(title="⛔봇 오류 발생⛔", description="의도치 않는 오류가 발생하였습니다. \n 개발자에게 로그를 전송 합니다. \n 오류 해결이 될동안 사용하지 말아주세요.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
@@ -212,14 +209,13 @@ async def on_message(message):
     if message.content.startswith("!공지"): 
         try:
             user = message.author
-            text= f"{message.content}"
-            a,b=text.split()
+            hi = message.content[4:]
             no = client.get_channel(int(notice))
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
                 return
-            embed = discord.Embed(title="공지 사항", description=f"{b}",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
+            embed = discord.Embed(title="공지 사항", description=f"{hi}",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
             await no.send ("@everyone", embed=embed)
@@ -228,11 +224,10 @@ async def on_message(message):
                     pass
                 else:
                     try:
-                        text= f"{message.content}"
-                        a,b=text.split()
+                        hi = message.content[27:]
                         if message.author.guild_permissions.manage_messages:
                             embed2 = discord.Embed(color=0x800080, timestamp=datetime.datetime.now(pytz.timezone('UTC')))
-                            embed2.add_field(name=f"공지 사항", value=f"{b}", inline=False)
+                            embed2.add_field(name=f"공지 사항", value=f"{hi}", inline=False)
                             embed2.set_footer(text="{}".format(servername))
                             embed2.set_thumbnail(url=servericon)
                             await i.send (f"{message.author.mention}", embed=embed2)
@@ -398,8 +393,7 @@ async def on_message(message):
                 await message.channel.send(f"{message.author.mention}" ,embed=embed)
                 return None
             user = message.author
-            text= f"{message.content}"
-            a,b,c=text.split()
+            hi = message.content[27:]
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
@@ -409,12 +403,12 @@ async def on_message(message):
             embed = discord.Embed(title="운영진 안내", description=f"다른 사용자에게 봇을 이용하여 디엠을 보냈습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed.add_field(name="디엠 보낸사람", value=f"{message.mentions[0]}", inline=False) 
-            embed.add_field(name="사유", value=f"{c}", inline=False) 
+            embed.add_field(name="사유", value=f"{hi}", inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
             await message.author.send (f"{message.author.mention}", embed=embed)     
             embed = discord.Embed(title="운영진 안내",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
-            embed.add_field(name="내용", value=f"{c}".format(client.latency), inline=False) 
+            embed.add_field(name="내용", value=f"{hi}".format(client.latency), inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
             await message.mentions[0].send (f"{message.author.mention}", embed=embed)     
@@ -431,17 +425,16 @@ async def on_message(message):
 
     if message.content.startswith("!청소"): 
         try:
-            user = message.author
-            text= f"{message.content}"
-            a,b=text.split()
+            user = message.author   
+            hi = message.content[4:]
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
                 return
             await message.channel.purge(limit=1)
-            await message.channel.purge(limit=int(b))
+            await message.channel.purge(limit=int(hi))
             embed = discord.Embed(title="청소 안내", description=f"매세지를 성공적으로 삭제하였습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
-            embed.add_field(name="청소 매세지 개수", value=f"{b}".format(client.latency), inline=False) 
+            embed.add_field(name="청소 매세지 개수", value=f"{hi}".format(client.latency), inline=False) 
             embed.add_field(name="청소된 채널 아이디", value=f"{message.channel.id}".format(client.latency), inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
@@ -465,8 +458,7 @@ async def on_message(message):
                 await message.channel.send(f"{message.author.mention}" ,embed=embed)
                 return None
             user = message.author
-            text= f"{message.content}"
-            a,b,c=text.split()
+            hi = message.content[27:]
             Error = client.get_channel(int(logs))
             police = client.get_channel(int(kick))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
@@ -477,18 +469,18 @@ async def on_message(message):
             embed = discord.Embed(title="추방 안내", description=f"사용자를 성공적으로 추방하였습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed.add_field(name="추방 대상", value=f"{message.mentions[0]}", inline=False) 
-            embed.add_field(name="사유", value=f"{c}", inline=False) 
+            embed.add_field(name="사유", value=f"{hi}", inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
             await message.author.send (f"{message.author.mention}", embed=embed)     
             embed2 = discord.Embed(title="추방 안내", timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed2.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed2.add_field(name="추방 대상", value=f"{message.mentions[0]}", inline=False) 
-            embed2.add_field(name="사유", value=f"{c}", inline=False) 
+            embed2.add_field(name="사유", value=f"{hi}", inline=False) 
             embed2.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed2.set_thumbnail(url=servericon)
             await police.send (f"{message.author.mention}", embed=embed2)    
-            await message.mentions[0].kick(reason=f'{c}')  
+            await message.mentions[0].kick(reason=f'{hi}')  
         except Exception as e:
             embed = discord.Embed(title="⛔봇 오류 발생⛔", description="의도치 않는 오류가 발생하였습니다. \n 개발자에게 로그를 전송 합니다. \n 오류 해결이 될동안 사용하지 말아주세요.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.set_footer(text=f"{servername}", icon_url=""+servericon + "")
@@ -508,10 +500,9 @@ async def on_message(message):
                 await message.channel.send(f"{message.author.mention}" ,embed=embed)
                 return None
             user = message.author
+            hi = message.content[27:]
             Error = client.get_channel(int(logs))
             police = client.get_channel(int(kick))
-            text= f"{message.content}"
-            a,b,c=text.split()
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
                 return
@@ -520,18 +511,18 @@ async def on_message(message):
             embed = discord.Embed(title="차단 안내", description=f"사용자를 성공적으로 차단하였습니다.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed.add_field(name="차단 대상", value=f"{message.mentions[0]}", inline=False) 
-            embed.add_field(name="사유", value=f"{c}", inline=False) 
+            embed.add_field(name="사유", value=f"{hi}", inline=False) 
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
             await message.author.send (f"{message.author.mention}", embed=embed)     
             embed2 = discord.Embed(title="차단 안내", timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed2.add_field(name="담당 관리자", value=f"{message.author}", inline=False) 
             embed2.add_field(name="차단 대상", value=f"{message.mentions[0]}", inline=False) 
-            embed2.add_field(name="사유", value=f"{c}", inline=False) 
+            embed2.add_field(name="사유", value=f"{hi}", inline=False) 
             embed2.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed2.set_thumbnail(url=servericon)
             await police.send (f"{message.author.mention}", embed=embed2)    
-            await message.mentions[0].ban(reason=f'{c}')  
+            await message.mentions[0].ban(reason=f'{hi}')  
         except Exception as e:
             embed = discord.Embed(title="⛔봇 오류 발생⛔", description="의도치 않는 오류가 발생하였습니다. \n 개발자에게 로그를 전송 합니다. \n 오류 해결이 될동안 사용하지 말아주세요.",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.set_footer(text=f"{servername}", icon_url=""+servericon + "")
@@ -545,14 +536,13 @@ async def on_message(message):
     if message.content.startswith("!투표"): 
         try:
             user = message.author
-            text= f"{message.content}"
-            a,b=text.split()
+            hi = message.content[4:]
             no = client.get_channel(int(voting))
             Error = client.get_channel(int(logs))
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
                 return
-            embed = discord.Embed(title="투표 사항", description=f"{b}",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
+            embed = discord.Embed(title="투표 사항", description=f"{hi}",timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.set_footer(text="{}".format(servername), icon_url=""+servericon + "")
             embed.set_thumbnail(url=servericon)
             msg = await no.send ("@everyone", embed=embed)
@@ -563,11 +553,10 @@ async def on_message(message):
                     pass
                 else:
                     try:
-                        text= f"{message.content}"
-                        a,b=text.split()
+                        hi = message.content[4:]
                         if message.author.guild_permissions.manage_messages:
                             embed2 = discord.Embed(color=0x800080, timestamp=datetime.datetime.now(pytz.timezone('UTC')))
-                            embed2.add_field(name=f"투표 사항", value=f"{b}", inline=False)
+                            embed2.add_field(name=f"투표 사항", value=f"{hi}", inline=False)
                             embed2.set_footer(text="{}".format(servername))
                             embed2.set_thumbnail(url=servericon)
                             msg = await i.send (f"{message.author.mention}", embed=embed2)
@@ -634,10 +623,10 @@ async def on_message(message):
             if message.author.bot:
                 return
             else:
-                embed = discord.Embed(title='문의가 왔습니다!', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
+                embed = discord.Embed(title='문의가 왔습니다!', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
                 embed.add_field(name='전송자ㅣ내용', value=f"{message.author}ㅣ{message.content}", inline=False)
                 embed.set_footer(text=f"{servername}", icon_url=""+servericon + "")
-                embed3 = discord.Embed(timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
+                embed3 = discord.Embed(timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
                 embed3.add_field(name="문의 안내", value=f"전달 내용 : {message.content}", inline=False)
                 embed3.set_footer(text=f"{servername}", icon_url=""+servericon + "")
                 await message.author.send (embed=embed3)
@@ -664,7 +653,7 @@ async def on_message(message):
             if not target in message.author.roles: 
                 return
             hi = message.content[27:]
-            embed = discord.Embed(title='문의 답변이 왔습니다!', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
+            embed = discord.Embed(title='문의 답변이 왔습니다!', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name='내용', value=hi, inline=False)
             embed.set_footer(text=f"{servername}", icon_url=""+servericon + "")
             await message.mentions[0].send (embed=embed)
@@ -689,7 +678,7 @@ async def on_message(message):
             target = discord.utils.get(message.guild.roles, name=f"{guild}") 
             if not target in message.author.roles: 
                 return
-            embed = discord.Embed(title='문의가 종료되었습니다.', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x00ff00)
+            embed = discord.Embed(title='문의가 종료되었습니다.', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x800080)
             embed.add_field(name='안내사항', value="담당 관리진이 문의를 종료 하였습니다. 매세지를 보내시면 새로운 문의가 생성되니 답장은 하지 말아주세요.", inline=False)
             embed.set_footer(text=f"{servername}", icon_url=""+servericon + "")
             msg1 = await message.mentions[0].send (embed=embed)
