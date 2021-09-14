@@ -97,8 +97,8 @@ async def on_message(message):
                     noticeid = file.read()
                     if noticeid == content:
                         embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'이미 지정된 채널입니다.', color=0xFF0000)
-                        return await message.channel.send(embed=embed3)   
-                    embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'이미 지정된 채널이 있군요. {noticeid}로 채널을 지정 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
+                        return await message.channel.send(embed=embed3)                           
+                    embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'이미 지정된 채널은 {noticeid}입니다. {content}로 채널을 지정을 변경 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
                     await message.channel.send(embed=embed3)          
 
                     def check(msg):
@@ -125,7 +125,7 @@ async def on_message(message):
                             embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'네/아니요를 보내주세요. 채널 지정이 취소되었습니다.', color=0xFF0000)
                             return await message.channel.send(embed=embed3)   
                 except:
-                    embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'처음으로 채널을 지정하시는군요. 채널을 지정 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
+                    embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'현재 지정된 채널이 없습니다. {content}로 채널을 지정 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
                     await message.channel.send(embed=embed3)          
 
                     def check(msg):
