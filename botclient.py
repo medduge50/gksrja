@@ -67,7 +67,7 @@ async def on_message(message):
                 return
             else:
                 embed = discord.Embed(title=f'{name}',timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
-                embed.add_field(name="관리 명령어", value="!핑, !공지, !청소", inline=False)  
+                embed.add_field(name="관리 명령어", value="!핑, !공지, !채널지정, !청소", inline=False)  
                 embed.set_footer(text=footer)
                 embed.set_thumbnail(url=icon)  
                 await message.channel.send(embed=embed)
