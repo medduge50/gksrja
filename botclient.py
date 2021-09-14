@@ -95,6 +95,9 @@ async def on_message(message):
                 try:
                     file = open(f'notice.txt', 'r')
                     noticeid = file.read()
+                    if noticeid == content:
+                        embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'이미 지정된 채널입니다.', color=0xFF0000)
+                        return await message.channel.send(embed=embed3)   
                     embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'이미 지정된 채널이 있군요. {noticeid}로 채널을 지정 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
                     await message.channel.send(embed=embed3)          
 
