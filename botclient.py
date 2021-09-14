@@ -17,7 +17,9 @@ joinid = "886437230179135572" #join channel id
 
 removeid = "886437433841967154" #remove channel id
 
-dlswmdrole = "886440697220202526" #dlswmd role id
+dlswmdrole = "886440697220202526" #dlswmd role id rmaoid
+
+rmaoid = "886479893733457970" #rmaoid
 ###################설정 하는 곳###################
 
 intents = discord.Intents.default()
@@ -116,7 +118,39 @@ async def on_message(message):
                         return await channel.send(f"@everyone" ,embed=embed)      
                     else:
                         embed3 = discord.Embed(title=f'{name} NOTICE', description=f'네/아니요를 보내주세요. 공지가 취소 되었습니다.', color=0xFF0000)
-                        return await message.channel.send(embed=embed3)                                            
+                        return await message.channel.send(embed=embed3)       
+
+        except Exception as errorcode:
+            error = client.get_channel(int(channelid)) 
+            embed2 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
+            embed2.add_field(name="사용자", value=message.author, inline=False)    
+            embed2.add_field(name="사용자 아이디", value=message.author.id, inline=False)  
+            embed2.add_field(name="명령어", value=message.content, inline=False)      
+            embed2.add_field(name="오류 코드", value=errorcode, inline=False)  
+            await error.send(embed=embed2)
+            embed3 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
+            return await message.channel.send(embed=embed3)          
+
+    if message.content.startswith("!구매"):
+        try:
+            try:
+                content = message.content[4:]
+                channename,user=content.split("&")
+            except:
+                embed3 = discord.Embed(title=f'{name} 구매 로그', description=f'채널 아이디와 공지할 내용을 보내주세요.', color=0xFF0000)
+                return await message.channel.send(embed=embed3)                   
+            target = discord.utils.get(message.guild.roles, name=f"{role}") 
+            if not target in message.author.roles: 
+                return
+            if message.author.bot:
+                return
+            else:
+                error = client.get_channel(int(rmaoid))             
+                embed = discord.Embed(timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                embed.add_field(name=f"{name} 구매 로그", value=f"**{user}**님 **{channename}**을(를) 구매해주셔서 감사합니다!", inline=False)  
+                embed.set_footer(text=footer)
+                embed.set_thumbnail(url=icon)  
+                return await error.send(embed=embed)                             
 
         except Exception as errorcode:
             error = client.get_channel(int(channelid)) 
