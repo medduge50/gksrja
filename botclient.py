@@ -47,6 +47,11 @@ async def on_member_remove(member):
 
 @client.event
 async def on_connect(): #봇이 켜졌을때 반응
+    try:
+        file = "notice.txt"
+        os.remove(file)
+    except:
+        pass
     print(f"BOT ON !") 
     game = discord.Game("관리봇 제작중") #상매 
     await client.change_presence(status=discord.Status.online, activity=game) #상매   
@@ -78,21 +83,103 @@ async def on_message(message):
             embed3 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
             await message.channel.send(embed=embed3)   
 
-    if message.content.startswith("!공지"):
+    if message.content.startswith("!채널지정"):
         try:
-            try:
-                content = message.content[4:]
-                channeid,soure=content.split("&")
-            except:
-                embed3 = discord.Embed(title=f'{name}', description=f'채널 아이디와 공지할 내용을 보내주세요.', color=0xFF0000)
-                return await message.channel.send(embed=embed3)                   
+            if message.author.bot:
+                return
+            else:
+                content = message.content[6:]
+                target = discord.utils.get(message.guild.roles, name=f"{role}") 
+                if not target in message.author.roles: 
+                    return
+                try:
+                    file = open(f'notice.txt', 'r')
+                    noticeid = file.read()
+                    embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'이미 지정된 채널이 있군요. {noticeid}로 채널을 지정 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
+                    await message.channel.send(embed=embed3)          
+
+                    def check(msg):
+                        return msg.author == message.author and msg.channel == message.channel 
+
+                    try:
+                        msg = await client.wait_for("message", timeout=30, check=check) 
+                    except:
+                        embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'30초 초과로 인하여 채널지정이 취소 되었습니다.', color=0xFF0000)
+                        return await message.channel.send(embed=embed3)   
+                    if msg.content == "아니요":
+                        embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'채널 지정이 취소 되었습니다.', color=0xFF0000)
+                        return await message.channel.send(embed=embed3)   
+                    else:
+                        if msg.content == "네":
+                            filename = f"notice.txt"
+                            with open(filename, "w") as file:
+                                file.write(f"{content}")
+                                embed = discord.Embed(title=f'{name} 채널 지정', description=f'채널이 지정되었습니다.\n지정된 채널: {content}', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                                embed.set_footer(text=footer)
+                                embed.set_thumbnail(url=icon)  
+                                return await message.channel.send(embed=embed)                               
+                        else:
+                            embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'네/아니요를 보내주세요. 채널 지정이 취소되었습니다.', color=0xFF0000)
+                            return await message.channel.send(embed=embed3)   
+                except:
+                    embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'처음으로 채널을 지정하시는군요. 채널을 지정 하시겠습니까 ? [네/아니요]\n30초 안으로 보내주세요.', color=0x0000FF)
+                    await message.channel.send(embed=embed3)          
+
+                    def check(msg):
+                        return msg.author == message.author and msg.channel == message.channel 
+
+                    try:
+                        msg = await client.wait_for("message", timeout=30, check=check) 
+                    except:
+                        embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'30초 초과로 인하여 채널지정이 취소 되었습니다.', color=0xFF0000)
+                        return await message.channel.send(embed=embed3)   
+                    if msg.content == "아니요":
+                        embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'채널 지정이 취소 되었습니다.', color=0xFF0000)
+                        return await message.channel.send(embed=embed3)   
+                    else:
+                        if msg.content == "네":
+                            filename = f"notice.txt"
+                            with open(filename, "w") as file:
+                                file.write(f"{content}")
+                                embed = discord.Embed(title=f'{name} 채널 지정', description=f'채널이 지정되었습니다.\n지정된 채널: {content}', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                                embed.set_footer(text=footer)
+                                embed.set_thumbnail(url=icon)  
+                                return await message.channel.send(embed=embed)                               
+                        else:
+                            embed3 = discord.Embed(title=f'{name} 채널 지정', description=f'네/아니요를 보내주세요. 채널 지정이 취소되었습니다.', color=0xFF0000)
+                            return await message.channel.send(embed=embed3)   
+
+        except Exception as errorcode:
+            error = client.get_channel(int(channelid)) 
+            embed2 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
+            embed2.add_field(name="사용자", value=message.author, inline=False)    
+            embed2.add_field(name="사용자 아이디", value=message.author.id, inline=False)  
+            embed2.add_field(name="명령어", value=message.content, inline=False)      
+            embed2.add_field(name="오류 코드", value=errorcode, inline=False)  
+            await error.send(embed=embed2)
+            embed3 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
+            return await message.channel.send(embed=embed3)      
+
+    if message.content.startswith("!공지"):
+        try:               
             target = discord.utils.get(message.guild.roles, name=f"{role}") 
             if not target in message.author.roles: 
                 return
             if message.author.bot:
                 return
             else:
-                embed3 = discord.Embed(title=f'{name} NOTICE', description=f'에브리원을 활성화 할까요 ? [네/아니요]', color=0x0000FF)
+                try:
+                    content = message.content[4:]
+                except:
+                    embed3 = discord.Embed(title=f'{name}', description=f'공지할 내용을 제대로 다시 보내주세요.', color=0xFF0000)
+                    return await message.channel.send(embed=embed3)   
+                try:
+                    file = open(f'notice.txt', 'r')
+                    noticeid = file.read() 
+                except:
+                    embed3 = discord.Embed(title=f'{name} NOTICE', description=f'현재 지정된 채널이 없습니다.\n!채널지정 [지정할 채널 아이디]를 먼저 이용해주세요.', color=0x0000FF)
+                    return await message.channel.send(embed=embed3)          
+                embed3 = discord.Embed(title=f'{name} NOTICE', description=f'현재 지정된 채널은 {noticeid}입니다. 에브리원을 활성화 할까요 ? [네/아니요/취소]', color=0x0000FF)
                 await message.channel.send(embed=embed3)          
 
                 def check(msg):
@@ -104,21 +191,33 @@ async def on_message(message):
                     embed3 = discord.Embed(title=f'{name} NOTICE', description=f'30초 초과로 인하여 공지가 초기화 되었습니다.', color=0xFF0000)
                     return await message.channel.send(embed=embed3)   
                 if msg.content == "아니요":
-                    channel = client.get_channel(int(channeid)) 
-                    embed = discord.Embed(title=f'{name} NOTICE', description=f'{soure}', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                    channel = client.get_channel(int(noticeid)) 
+                    embed = discord.Embed(title=f'{name} NOTICE', description=f'{content}', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
                     embed.set_footer(text=footer)
                     embed.set_thumbnail(url=icon)  
-                    return await channel.send(embed=embed)   
+                    try:
+                        return await channel.send(embed=embed)  
+                    except:
+                        embed3 = discord.Embed(title=f'{name} NOTICE', description=f'지정된 채널 아이디에 문제가 있습니다. 다시 확인해주세요.', color=0xFF0000)
+                        return await message.channel.send(embed=embed3)   
                 else:             
                     if msg.content == "네":                          
-                        channel = client.get_channel(int(channeid)) 
-                        embed = discord.Embed(title=f'{name} NOTICE', description=f'{soure}', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                        channel = client.get_channel(int(noticeid)) 
+                        embed = discord.Embed(title=f'{name} NOTICE', description=f'{content}', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
                         embed.set_footer(text=footer)
                         embed.set_thumbnail(url=icon)  
-                        return await channel.send(f"@everyone" ,embed=embed)      
+                        try:
+                            return await channel.send(f"@everyone" ,embed=embed)   
+                        except:
+                            embed3 = discord.Embed(title=f'{name} NOTICE', description=f'지정된 채널 아이디에 문제가 있습니다. 다시 확인해주세요.', color=0xFF0000)
+                            return await message.channel.send(embed=embed3)   
                     else:
-                        embed3 = discord.Embed(title=f'{name} NOTICE', description=f'네/아니요를 보내주세요. 공지가 취소 되었습니다.', color=0xFF0000)
-                        return await message.channel.send(embed=embed3)       
+                        if msg.content == "취소":
+                            embed3 = discord.Embed(title=f'{name} NOTICE', description=f'공지가 취소 되었습니다.', color=0xFF0000)
+                            return await message.channel.send(embed=embed3)   
+                        else:
+                            embed3 = discord.Embed(title=f'{name} NOTICE', description=f'네/아니요/취소를 보내주세요. 공지가 취소 되었습니다.', color=0xFF0000)
+                            return await message.channel.send(embed=embed3)       
 
         except Exception as errorcode:
             error = client.get_channel(int(channelid)) 
