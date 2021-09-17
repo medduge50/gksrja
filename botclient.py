@@ -5,7 +5,7 @@ token = os.environ["BOT_TOKEN"]
 
 name = "DUKE STORE" #서버이름
 
-role = "🌊ㆍ판매원" #권한 이름
+role = "🌊ㆍ총판" #권한 이름
 
 footer = "Copyright 2021 DUKE STORE all rights reserved."
 
@@ -20,6 +20,8 @@ removeid = "886437433841967154" #remove channel id
 dlswmdrole = "886440697220202526" #dlswmd role id rmaoid
 
 rmaoid = "886479893733457970" #rmaoid
+
+Categories = "886442382516695051"
 ###################설정 하는 곳###################
 
 intents = discord.Intents.default()
@@ -366,6 +368,140 @@ async def on_message(message):
             await error.send(embed=embed2)
             embed3 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
             return await message.channel.send(embed=embed3)
+
+    if message.guild is None:   
+        if message.author.bot:
+            return
+        else:
+            try:
+                file = open(f'{message.author.id}.txt', 'r')
+                sodyd = file.read()
+            except:
+                #######################채널 생성#########################
+                cat = client.get_channel(int(Categories))
+
+                category = discord.utils.get(cat.guild.categories, id=int(Categories))
+
+                channel = await cat.guild.create_text_channel(f"{message.author}ㅣ{message.author.id}", category=category)
+                #######################채널 생성#########################
+                    
+                ########################문의자에게 안내매세지 전송#########################
+                embed = discord.Embed(timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                embed.add_field(name=f"{name} 문의 센터", value=f"안녕하세요 {name}입니다. 문의센터를 이용해주셔서 감사합니다. 매세지가 전송 되었으니 기다려 주시면 감사하겠습니다.", inline=False)  
+                embed.set_footer(text=footer)
+                embed.set_thumbnail(url=icon)  
+                await message.author.send(embed=embed) 
+                #######################문의자에게 안내매세지 전송#########################
+
+                #########################생성된 채널에 매세지전송#########################
+                embed = discord.Embed(title=f'{name} 문의 센터', description=f'새로운 문의가 도착하였습니다.', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+                embed.add_field(name="사용자", value=message.author, inline=False)    
+                embed.add_field(name="사용자 아이디", value=message.author.id, inline=False)  
+                embed.add_field(name="문의 내용", value=message.content, inline=False)      
+                embed.add_field(name="문의 정보", value=f"{message.channel.id}ㅣ{channel.id}", inline=False)      
+                embed.set_footer(text=footer)
+                embed.set_thumbnail(url=icon)  
+                await channel.send(embed=embed)        
+                ########################생성된 채널에 매세지전송#########################
+
+                #########################txt생성#########################
+                filename = f"{message.author.id}.txt"
+                with open(filename, "w") as file:
+                    file.write(f"{channel.id}")      
+                filename = f"{channel.id}.txt"
+                with open(filename, "w") as file:
+                    file.write(f"{message.channel.id}") 
+                filename = f"{channel.id}ㅣ2.txt"
+                with open(filename, "w") as file:
+                    file.write(f"{message.author.id}")  
+                return   
+                #########################txt생성#########################    
+
+            #########################생성된 채널에 매세지전송#########################
+            dm = client.get_channel(int(sodyd))    
+            embed = discord.Embed(title=f'{name} 문의 센터', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+            embed.add_field(name="문의 내용", value=message.content, inline=False)      
+            embed.set_footer(text=footer)
+            embed.set_thumbnail(url=icon)  
+            await dm.send(embed=embed)   
+            return     
+            #########################생성된 채널에 매세지전송#########################      
+
+
+    if message.content.startswith("!문의종료"):
+        if message.author.bot:
+            return
+        else:
+            #########################txt확인#########################
+            try:
+                file = open(f'{message.channel.id}.txt', 'r')
+                sodyd = file.read()
+            except Exception:
+                return None
+
+            try:
+                file = open(f'{message.channel.id}ㅣ2.txt', 'r')
+                dkdk = file.read()
+            except Exception:
+                return None
+            #########################txt확인#########################
+
+            #########################문의센터 안내#########################
+            channel = client.get_channel(int(sodyd))
+
+            embed = discord.Embed(title=f'{name} 문의 센터', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+            embed.add_field(name="안내사항", value="잠시후 문의가 종료되며, 채널이 제거 됩니다.", inline=False)      
+            embed.set_footer(text=footer)
+            embed.set_thumbnail(url=icon)  
+            await message.channel.send(embed=embed)
+
+            embed = discord.Embed(title=f'{name} 문의 센터', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+            embed.add_field(name="안내사항", value=f"안녕하세요 {name}입니다. 담당 관리가 현재 사용자의 문의를 종료하였습니다. 매세지를 다시 보내면 새로운 문의가 생성되니 심중히 보내주세요 !", inline=False)      
+            embed.set_footer(text=footer)
+            embed.set_thumbnail(url=icon)  
+            await channel.send(embed=embed)     
+            #########################문의센터 안내#########################
+
+            #########################모든 설정 제거#########################
+            file.close() # file 제거
+
+            hh = client.get_channel(int(message.channel.id))
+            try:
+                await hh.delete() #채널 제거
+            except:    
+                pass
+                return None   
+            filename = f"{dkdk}.txt"
+            filename2 = f"{message.channel.id}.txt"
+            filename3 = f"{message.channel.id}ㅣ2.txt"
+            os.remove(filename) #txt 제거
+            os.remove(filename2) #txt 제거 
+            os.remove(filename3) #txt 제거 
+            #########################모든 설정 제거#########################             
+
+    if message.content.startswith(""):
+        if message.author.bot:
+            return
+        else:
+            content = message.content # 보낸 매세지 확인
+            #########################txt확인#########################
+            try:
+                file = open(f'{message.channel.id}.txt', 'r')
+                sodyd = file.read()
+            except Exception as e:
+                return None   
+            #########################txt확인#########################
+            channel = client.get_channel(int(sodyd))
+
+            embed = discord.Embed(title=f'{name} 문의 센터', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
+            embed.add_field(name="문의 센터 답장", value=f"{content}", inline=False)      
+            embed.set_footer(text=footer)
+            embed.set_thumbnail(url=icon)  
+            try:
+                await channel.send(embed=embed)
+            except:
+                return await message.add_reaction("⛔")
+            await message.add_reaction("✅")
 
 
 
