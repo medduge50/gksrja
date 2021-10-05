@@ -3,25 +3,25 @@ import discord, datetime, pytz, os, string, random
 ###################설정 하는 곳###################
 token = os.environ["BOT_TOKEN"]
 
-name = "DUKE STORE" #서버이름
+name = "FIRST 배포소" #서버이름
 
-role = "🌊ㆍ총판" #권한 이름
+role = "🐬ㆍ운영팀" #권한 이름
 
-footer = "Copyright 2021 DUKE STORE all rights reserved."
+tlalrole = "✅ㆍ손님"
 
-icon = "https://cdn.discordapp.com/attachments/850656914927779872/886508550103375922/9k.png" #사용할 봇 아이콘 
+footer = "Copyright 2021 FIRST 배포소 all rights reserved."
 
-channelid = "886508628956303390" #error channel id
+icon = "https://cdn.discordapp.com/attachments/744096168442855445/894757257613561886/1625663903238.png" #사용할 봇 아이콘 
 
-joinid = "886437230179135572" #join channel id
+channelid = "894757320981094482" #error channel id
 
-removeid = "886437433841967154" #remove channel id
+joinid = "876330143164014606" #join channel id
 
-dlswmdrole = "886440697220202526" #dlswmd role id rmaoid
+removeid = "876331295951708221" #remove channel id
 
-rmaoid = "886479893733457970" #rmaoid
+dlswmdrole = "876402715213832222" #dlswmd role id 
 
-Categories = "886442382516695051"
+Categories = "891708005559701515"
 ###################설정 하는 곳###################
 
 intents = discord.Intents.default()
@@ -60,6 +60,38 @@ async def on_connect(): #봇이 켜졌을때 반응
 
 @client.event
 async def on_message(message):   
+    if message.content.startswith("!업로더"):
+        #########################################################################
+        content = message.content[5:]
+        cat = client.get_channel(int(Categories))
+        dkdkrole = discord.utils.get(message.guild.roles, name=tlalrole)
+        #########################################################################
+        df = await cat.guild.create_category(f"╭━━━╯{content}이름╰━━━╮", overwrites=None, reason=None)
+        per = await cat.guild.create_text_channel(f"{content}ㆍ공지", category=df)   
+        per2 = await cat.guild.create_text_channel(f"{content}ㆍ배포목록", category=df)     
+        per3 = await cat.guild.create_text_channel(f"{content}ㆍ판매목록", category=df)          
+        per4 = await cat.guild.create_text_channel(f"{content}ㆍ배포신청", category=df)       
+        per5 = await cat.guild.create_text_channel(f"{content}ㆍ건의사항", category=df)    
+        ######################################################################### 
+        await per.set_permissions(message.guild.default_role, read_messages=False)
+        await per2.set_permissions(message.guild.default_role, read_messages=False)
+        await per3.set_permissions(message.guild.default_role, read_messages=False)
+        await per4.set_permissions(message.guild.default_role, read_messages=False)
+        await per5.set_permissions(message.guild.default_role, read_messages=False)
+        #########################################################################
+        await per.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+        #########################################################################
+        await per2.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+        #########################################################################
+        await per3.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+        #########################################################################
+        await per4.set_permissions(dkdkrole, read_messages=True, send_messages=True, read_message_history=True)
+        #########################################################################
+        await per5.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+        #########################################################################
+        embed = discord.Embed(title=f'{name}', description=f'업로더 채널이 생성되었습니다.\n설정된 이모티콘: {content}', color=0x0000FF)
+        return await message.channel.send(f"{message.author.mention}", embed=embed)  
+
     if message.content.startswith("!도움말"):
         try:
             target = discord.utils.get(message.guild.roles, name=f"{role}") 
@@ -69,7 +101,7 @@ async def on_message(message):
                 return
             else:
                 embed = discord.Embed(title=f'{name}',timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
-                embed.add_field(name="관리 명령어", value="!핑, !공지, !채널지정, !청소", inline=False)  
+                embed.add_field(name="관리 명령어", value="!핑, !공지, !채널지정, !청소, !업로더", inline=False)  
                 embed.set_footer(text=footer)
                 embed.set_thumbnail(url=icon)  
                 await message.channel.send(embed=embed)
@@ -235,38 +267,6 @@ async def on_message(message):
             embed3 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
             return await message.channel.send(embed=embed3)          
 
-    if message.content.startswith("!구매"):
-        try:
-            try:
-                content = message.content[4:]
-                channename,user=content.split("&")
-            except:
-                embed3 = discord.Embed(title=f'{name} 구매 로그', description=f'채널 아이디와 공지할 내용을 보내주세요.', color=0xFF0000)
-                return await message.channel.send(embed=embed3)                   
-            target = discord.utils.get(message.guild.roles, name=f"{role}") 
-            if not target in message.author.roles: 
-                return
-            if message.author.bot:
-                return
-            else:
-                error = client.get_channel(int(rmaoid))             
-                embed = discord.Embed(timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
-                embed.add_field(name=f"{name} 구매 로그", value=f"**{user}**님 **{channename}**을(를) 구매해주셔서 감사합니다!", inline=False)  
-                embed.set_footer(text=footer)
-                embed.set_thumbnail(url=icon)  
-                return await error.send(embed=embed)                             
-
-        except Exception as errorcode:
-            error = client.get_channel(int(channelid)) 
-            embed2 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
-            embed2.add_field(name="사용자", value=message.author, inline=False)    
-            embed2.add_field(name="사용자 아이디", value=message.author.id, inline=False)  
-            embed2.add_field(name="명령어", value=message.content, inline=False)      
-            embed2.add_field(name="오류 코드", value=errorcode, inline=False)  
-            await error.send(embed=embed2)
-            embed3 = discord.Embed(title=f'{name}', description=f'오류가 발생하였습니다.', color=0xFF0000)
-            return await message.channel.send(embed=embed3)    
-
     if message.content.startswith("!인증"):
         try:
             if message.author.bot:
@@ -426,7 +426,6 @@ async def on_message(message):
             await dm.send(embed=embed)   
             return     
             #########################생성된 채널에 매세지전송#########################      
-
 
     if message.content.startswith("!문의종료"):
         if message.author.bot:
