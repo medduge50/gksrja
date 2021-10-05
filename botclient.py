@@ -7,6 +7,8 @@ name = "FIRST 배포소" #서버이름
 
 role = "🐬ㆍ운영팀" #권한 이름
 
+role2 = "🔨ㆍ𝐌𝐀𝐈𝐍 𝐁𝐎𝐓" #권한 이름
+
 tlalrole = "✅ㆍ손님"
 
 footer = "Copyright 2021 FIRST 배포소 all rights reserved."
@@ -61,6 +63,9 @@ async def on_connect(): #봇이 켜졌을때 반응
 @client.event
 async def on_message(message):   
     if message.content.startswith("!업로더"):
+        target = discord.utils.get(message.guild.roles, name=f"{role2}") 
+        if not target in message.author.roles: 
+            return
         #########################################################################
         content = message.content[27:]
         try:
@@ -359,7 +364,7 @@ async def on_message(message):
 
     if message.content.startswith("!핑"):
         try:
-            target = discord.utils.get(message.guild.roles, name=f"{role}") 
+            target = discord.utils.get(message.guild.roles, name=f"{role2}") 
             if not target in message.author.roles: 
                 return
             if message.author.bot:
