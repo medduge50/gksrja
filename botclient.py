@@ -62,11 +62,15 @@ async def on_connect(): #봇이 켜졌을때 반응
 async def on_message(message):   
     if message.content.startswith("!업로더"):
         #########################################################################
-        content = message.content[5:]
+        content = message.content[27:]
+        try:
+            user = message.mentions[0]
+        except:
+            return await message.channel.send("유저를 맨션해주세요.\n예시 (!업로더 @맨션 사용할 이모지)")
         cat = client.get_channel(int(Categories))
         dkdkrole = discord.utils.get(message.guild.roles, name=tlalrole)
         #########################################################################
-        df = await cat.guild.create_category(f"╭━━━╯{content}이름╰━━━╮", overwrites=None, reason=None)
+        df = await cat.guild.create_category(f"╭━━━╯{content}{user.name}╰━━━╮", overwrites=None, reason=None)
         per = await cat.guild.create_text_channel(f"{content}ㆍ공지", category=df)   
         per2 = await cat.guild.create_text_channel(f"{content}ㆍ배포목록", category=df)     
         per3 = await cat.guild.create_text_channel(f"{content}ㆍ판매목록", category=df)          
@@ -88,6 +92,12 @@ async def on_message(message):
         await per4.set_permissions(dkdkrole, read_messages=True, send_messages=True, read_message_history=True)
         #########################################################################
         await per5.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+        #########################################################################
+        await per.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+        await per2.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+        await per3.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+        await per4.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+        await per5.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
         #########################################################################
         embed = discord.Embed(title=f'{name}', description=f'업로더 채널이 생성되었습니다.\n설정된 이모티콘: {content}', color=0x0000FF)
         return await message.channel.send(f"{message.author.mention}", embed=embed)  
