@@ -42,7 +42,7 @@ async def on_member_join(member):
 async def on_member_remove(member):
     member_remove = client.get_channel(int(removeid)) 
     embed = discord.Embed(timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
-    embed.add_field(name=f"{name} 환영 !", value=f"안녕히가세요 ! **{member}**님! 지금까지 즐거웠습니다 !", inline=False)  
+    embed.add_field(name=f"{name} 환영 !", value=f"안녕히가세요 ! **{member}**님", inline=False)  
     embed.set_footer(text=footer)
     embed.set_thumbnail(url=icon)  
     await member_remove.send(member.mention ,embed=embed)    
@@ -55,7 +55,7 @@ async def on_connect(): #봇이 켜졌을때 반응
     except:
         pass
     print(f"BOT ON !") 
-    game = discord.Game("관리봇 제작중") #상매 
+    game = discord.Game(name) #상매 
     await client.change_presence(status=discord.Status.online, activity=game) #상매   
 
 @client.event
