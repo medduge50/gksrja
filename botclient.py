@@ -105,6 +105,7 @@ async def on_message(message):
         await per5.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
         #########################################################################
         await per.send(f"{user.mention}")
+        await user.edit(nick=f"업로더ㅣ{user.name}")
         embed = discord.Embed(title=f'{name}', description=f'업로더 채널이 생성되었습니다.\n설정된 이모티콘: {content}\n설정된 업로더: {user}', color=0x0000FF)
         return await message.channel.send(f"{message.author.mention}", embed=embed)  
 
