@@ -1,5 +1,4 @@
 import discord, datetime, pytz, os, string, random
-from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 
 ###################설정 하는 곳###################
 token = os.environ["BOT_TOKEN"]
