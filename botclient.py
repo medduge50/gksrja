@@ -1,4 +1,5 @@
 import discord, datetime, pytz, os, string, random
+from discord_components import DiscordComponents, Button, ButtonStyle, InteractionType
 
 ###################설정 하는 곳###################
 token = os.environ["BOT_TOKEN"]
@@ -9,19 +10,19 @@ role = "🐬ㆍ운영팀" #권한 이름
 
 role2 = "🔨ㆍ𝐌𝐀𝐈𝐍 𝐁𝐎𝐓" #권한 이름
 
-tlalrole = "✅ㆍ손님"
+tlalrole = "✅ㆍ손님" 
 
 footer = "Copyright 2021 FIRST 배포소 all rights reserved."
 
 icon = "https://cdn.discordapp.com/attachments/744096168442855445/894757257613561886/1625663903238.png" #사용할 봇 아이콘 
 
-channelid = "894757320981094482" #error channel id
+channelid = "894757320981094482" 
 
-joinid = "876330143164014606" #join channel id
+joinid = "876330143164014606" 
 
-removeid = "876331295951708221" #remove channel id
+removeid = "876331295951708221"
 
-dlswmdrole = "876402715213832222" #dlswmd role id 
+dlswmdrole = "876402715213832222" 
 
 Categories = "891708005559701515"
 ###################설정 하는 곳###################
@@ -72,43 +73,51 @@ async def on_message(message):
             user = message.mentions[0]
         except:
             return await message.channel.send("유저를 맨션해주세요.\n예시 (!업로더 @맨션 사용할 이모지)")
-        cat = client.get_channel(int(Categories))
-        dkdkrole = discord.utils.get(message.guild.roles, name=tlalrole)
-        #########################################################################
-        df = await cat.guild.create_category(f"╭━━━╯{content}{user.name}╰━━━╮", overwrites=None, reason=None)
-        per = await cat.guild.create_text_channel(f"{content}ㆍ공지", category=df)   
-        per2 = await cat.guild.create_text_channel(f"{content}ㆍ배포목록", category=df)     
-        per3 = await cat.guild.create_text_channel(f"{content}ㆍ판매목록", category=df)          
-        per4 = await cat.guild.create_text_channel(f"{content}ㆍ배포신청", category=df)       
-        per5 = await cat.guild.create_text_channel(f"{content}ㆍ건의사항", category=df)    
-        ######################################################################### 
-        await per.set_permissions(message.guild.default_role, read_messages=False)
-        await per2.set_permissions(message.guild.default_role, read_messages=False)
-        await per3.set_permissions(message.guild.default_role, read_messages=False)
-        await per4.set_permissions(message.guild.default_role, read_messages=False)
-        await per5.set_permissions(message.guild.default_role, read_messages=False)
-        #########################################################################
-        await per.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
-        #########################################################################
-        await per2.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
-        #########################################################################
-        await per3.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
-        #########################################################################
-        await per4.set_permissions(dkdkrole, read_messages=True, send_messages=True, read_message_history=True)
-        #########################################################################
-        await per5.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
-        #########################################################################
-        await per.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
-        await per2.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
-        await per3.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
-        await per4.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
-        await per5.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
-        #########################################################################
-        await per.send(f"{user.mention}")
-        await user.edit(nick=f"업로더ㅣ{user.name}")
-        embed = discord.Embed(title=f'{name}', description=f'업로더 채널이 생성되었습니다.\n설정된 이모티콘: {content}\n설정된 업로더: {user}', color=0x0000FF)
-        return await message.channel.send(f"{message.author.mention}", embed=embed)  
-
+        if content == "":
+            return await message.channel.send("이모지를 적어주세요.\n예시 (!업로더 @맨션 사용할 이모지)")
+        else:            
+            cat = client.get_channel(int(Categories))
+            dkdkrole = discord.utils.get(message.guild.roles, name=tlalrole)
+            #########################################################################
+            df = await cat.guild.create_category(f"╭━━━╯{content}{user.name}╰━━━╮", overwrites=None, reason=None)
+            per = await cat.guild.create_text_channel(f"{content}ㆍ공지", category=df)   
+            per2 = await cat.guild.create_text_channel(f"{content}ㆍ배포목록", category=df)     
+            per3 = await cat.guild.create_text_channel(f"{content}ㆍ판매목록", category=df)          
+            per4 = await cat.guild.create_text_channel(f"{content}ㆍ배포신청", category=df)       
+            per5 = await cat.guild.create_text_channel(f"{content}ㆍ건의사항", category=df)    
+            ######################################################################### 
+            await per.set_permissions(message.guild.default_role, read_messages=False)
+            await per2.set_permissions(message.guild.default_role, read_messages=False)
+            await per3.set_permissions(message.guild.default_role, read_messages=False)
+            await per4.set_permissions(message.guild.default_role, read_messages=False)
+            await per5.set_permissions(message.guild.default_role, read_messages=False)
+            #########################################################################
+            await per.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+            #########################################################################
+            await per2.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+            #########################################################################
+            await per3.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+            #########################################################################
+            await per4.set_permissions(dkdkrole, read_messages=True, send_messages=True, read_message_history=True)
+            #########################################################################
+            await per5.set_permissions(dkdkrole, read_messages=True, send_messages=False, read_message_history=True)
+            #########################################################################
+            await per.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+            await per2.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+            await per3.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+            await per4.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+            await per5.set_permissions(user, read_messages=True, send_messages=True, read_message_history=True)
+            #########################################################################
+            await per.send(f"{user.mention}")
+            embed2 = discord.Embed(title=f'{name}', description=f'``{user}``님에 업로더 채널이 생성되었습니다.\n담당 관리진: {message.author}\n설정된 이모지: {content}', color=0x0000FF)
+            await user.send(message.author.mention ,embed=embed2)
+            try:
+                await user.edit(nick=f"업로더ㅣ{user.name}")
+            except:
+                pass
+            embed = discord.Embed(title=f'{name}', description=f'업로더 채널이 생성되었습니다.\n설정된 이모티콘: {content}\n설정된 업로더: {user}', color=0x0000FF)
+            return await message.channel.send(f"{message.author.mention}", embed=embed)  
+            
     if message.content.startswith("!도움말"):
         try:
             target = discord.utils.get(message.guild.roles, name=f"{role}") 
@@ -472,7 +481,7 @@ async def on_message(message):
             await message.channel.send(embed=embed)
 
             embed = discord.Embed(title=f'{name} 문의 센터', timestamp=datetime.datetime.now(pytz.timezone('UTC')), color=0x0000FF)    
-            embed.add_field(name="안내사항", value=f"안녕하세요 {name}입니다. 담당 관리가 현재 사용자의 문의를 종료하였습니다. 매세지를 다시 보내면 새로운 문의가 생성되니 심중히 보내주세요 !", inline=False)      
+            embed.add_field(name="안내사항", value=f"안녕하세요 {name}입니다. 담당 관리자가 현재 사용자의 문의를 종료하였습니다. 매세지를 다시 보내면 새로운 문의가 생성되니 심중히 보내주세요 !", inline=False)      
             embed.set_footer(text=footer)
             embed.set_thumbnail(url=icon)  
             await channel.send(embed=embed)     
